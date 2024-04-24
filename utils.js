@@ -1,9 +1,9 @@
+// utils.js
 import inquirer from "inquirer";
 import ytdl from "ytdl-core";
 import fs from "fs";
-import colors from "colors";
+import os from "os";
 
-// function to get user input and return the URL
 export const get_user_input = async () => {
   const questions = [
     {
@@ -17,13 +17,11 @@ export const get_user_input = async () => {
   return answers.url;
 };
 
-// function to validate the URL
 export const validate_url = (url) => {
   const url_pattern = /^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/;
   return url_pattern.test(url);
 };
 
-// function to get user input for the video quality
 export const get_video_quality = async () => {
   const questions = [
     {
@@ -38,7 +36,6 @@ export const get_video_quality = async () => {
   return answers.quality;
 };
 
-// function to get user input for the video format
 export const get_video_format = async () => {
   const questions = [
     {
@@ -53,7 +50,6 @@ export const get_video_format = async () => {
   return answers.format;
 };
 
-// function to get user input for the video name
 export const get_video_name = async () => {
   const questions = [
     {
@@ -67,30 +63,36 @@ export const get_video_name = async () => {
   return answers.name;
 };
 
-// function to download the video
 export const download_video = async (url, quality, format, name) => {
-  const video = ytdl(url, {
-    quality: quality === "Highest" ? "highest" : "lowest",
-  });
+  try {
+    const video = ytdl(url, {
+      quality: quality === "Highest" ? "lowest" : "highest",
+    });
 
-  video.on("progress", (chunk, downloaded, total) => {
-    show_progress(chunk, downloaded, total);
-  });
+    video.on("progress", (chunk, downloaded, total) => {
+      show_progress(chunk, downloaded, total);
+    });
 
-  video.on("end", async () => {
-    show_success(name);
-    return;
-  });
+    video.on("end", async () => {
+      show_success(name);
+      return;
+    });
 
-  video.on("error", (error) => {
-    show_error(error);
-    return;
-  });
+    // Get the user's home directory
+    const homeDirectory = os.homedir();
 
-  video.pipe(fs.createWriteStream(`${name}.${format}`));
+    // console.log(homeDirectory);
+
+    // Define the path to the Downloads folder
+    const downloadsFolder = `${homeDirectory}\\Downloads`; // On Windows, backslashes are used to separate directories
+
+    // Modify the line to save the video in the Downloads folder
+    video.pipe(fs.createWriteStream(`${downloadsFolder}\\${name}.${format}`));
+  } catch (error) {
+    throw new Error("An error occurred while downloading the video.");
+  }
 };
 
-// function to display the progress of the download
 export const show_progress = (chunk, downloaded, total) => {
   const percentage = (downloaded / total) * 100;
   process.stdout.clearLine();
@@ -98,17 +100,10 @@ export const show_progress = (chunk, downloaded, total) => {
   process.stdout.write(`Downloading... ${percentage.toFixed(2)}%`);
 };
 
-// function to display the success message
 export const show_success = (name) => {
   console.log(`\n${name} downloaded successfully!`);
 };
 
-// function to display the error message
-export const show_error = (error) => {
-  console.log(colors.red("Invalid URL! Please enter a valid YouTube URL."));
-};
-
-// function to get the user input for downloading another video
 export const to_be_continued = async () => {
   const questions = [
     {
