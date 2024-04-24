@@ -4,6 +4,9 @@
   "description": "",
   "main": "index.js",
   "type": "module",
+  "bin": {
+    "youtube_video_downloader": "./index.js"
+  },
   "scripts": {
     "start": "node index",
     "dev": "nodemon index"
