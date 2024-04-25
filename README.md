@@ -1,6 +1,6 @@
 # YouTube Video Downloader Tool
 
-This is a command-line interface (CLI) tool for downloading YouTube videos directly to your local machine. It allows you to specify the video URL, choose the video quality, format, and provide a custom name for the downloaded video.
+This is a command-line interface (CLI) tool for downloading YouTube videos directly to your local machine. It allows you to specify the video URL, choose the video quality, and format, and provide a custom name for the downloaded video.
 
 ## Features
 
@@ -10,7 +10,7 @@ This is a command-line interface (CLI) tool for downloading YouTube videos direc
 
 ## Installation
 
-To use this tool, you need to have [Node.js](https://nodejs.org/) installed on your machine. Once you have Node.js installed, you can install the tool globally using npm:
+To use this tool, you need to have [NodeJS](https://nodejs.org/) installed on your machine. Once you have Node.js installed, you can install the tool globally using npm:
 
 ```bash
 npm install -g youtube_video_downloader_tool
@@ -24,4 +24,4 @@ After installing the tool, you can run it from the command line using the follow
 youtube_video_downloader
 ```
 
-Follow the prompts to enter the video URL, choose the video quality, format, and provide a custom name for the downloaded video.
+Follow the prompts to enter the video URL, choose the video quality, and format, and provide a custom name for the downloaded video. The downloaded video will be saved in the Downloads folder of your operating system.
